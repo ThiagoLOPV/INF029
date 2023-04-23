@@ -29,6 +29,8 @@ void testQ4();
 void testQ5();
 void testQ6();
 
+int test(int num);
+
 int main()
 {
   //testSomar();
@@ -39,6 +41,7 @@ int main()
   testQ4();
   testQ5();
   testQ6();*/
+  test(345);
 }
 
 void testSomar()
@@ -186,4 +189,18 @@ void testQ6()
   printf("%d\n", q6(34567368, 4576) == 0);
   printf("%d\n", q6(3539343, 3) == 4);
   printf("%d\n", q6(3539343, 39) == 1);
+}
+
+
+
+int test(int num){
+  int d1;
+  
+  while (num / 10 != 0){
+    d1 = num % 10;
+    num = num / 10;
+    printf("Num:  %d, digito: %d\n", num, d1);
+  }
+  
+  
 }
