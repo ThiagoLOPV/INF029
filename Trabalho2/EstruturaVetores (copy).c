@@ -11,8 +11,6 @@ typedef struct {
 
 Vetor vetor[TAM];
 
-int vetorPrincipal[TAM];
-
 /*
 Objetivo: criar estrutura auxiliar na posição 'posicao'.
 com tamanho 'tamanho'
@@ -25,19 +23,27 @@ Rertono (int)
 */
 int criarEstruturaAuxiliar(int posicao, int tamanho) {
   int i;
-    
   int retorno = 0;
   // a posicao pode já existir estrutura auxiliar
   if (vetor[posicao].vetPrincipal != NULL)
     retorno = JA_TEM_ESTRUTURA_AUXILIAR;
   // se posição é um valor válido {entre 1 e 10}
-  retorno = POSICAO_INVALIDA;
+  else if (posicao > 10 || posicao < 1)
+    retorno = POSICAO_INVALIDA;
   // o tamanho ser muito grande
-  retorno = SEM_ESPACO_DE_MEMORIA;
+  else if (vetor->tamAux)
+    retorno = SEM_ESPACO_DE_MEMORIA;
   // o tamanho nao pode ser menor que 1
-  retorno = TAMANHO_INVALIDO;
+  else if (tamanho < 1)
+    retorno = TAMANHO_INVALIDO;
   // deu tudo certo, crie
-  retorno = SUCESSO;
+  else{
+    vetor[posicao].vetPrincipal = (int*) malloc(tamanho * sizeof(int));
+    vetor[posicao].tamAux = tamanho;
+    vetor[posicao].qtdElemento = 0;
+    retorno = SUCESSO;
+  }
+    
 
   return retorno;
 }
@@ -52,27 +58,26 @@ Rertono (int)
 CONSTANTES
 */
 int inserirNumeroEmEstrutura(int posicao, int valor) {
+  int i,j,ret;
   int retorno = 0;
-  int existeEstruturaAuxiliar = 0;
-  int temEspaco = 0;
-  int posicao_invalida = 0;
-
-  if (posicao_invalida)
+  ret = ehPosicaoValida(posicao);
+  if(ret == POSICAO_INVALIDA)
     retorno = POSICAO_INVALIDA;
-  else {
-    // testar se existe a estrutura auxiliar
-    if (existeEstruturaAuxiliar) {
-      if (temEspaco) {
-        // insere
+  else{
+    if(vetor[posicao].vetPrincipal!=NULL){
+      if(vetor[posicao].qtdElemento < vetor[posicao].tamAux){
+        vetor[posicao].vetPrincipal[vetor[posicao].qtdElemento] = valor;
+        vetor[posicao].qtdElemento+;
         retorno = SUCESSO;
-      } else {
+      }
+      else{
         retorno = SEM_ESPACO;
       }
-    } else {
+    }
+    else{
       retorno = SEM_ESTRUTURA_AUXILIAR;
     }
   }
-
   return retorno;
 }
 
@@ -240,6 +245,4 @@ Objetivo: finaliza o programa. deve ser chamado ao final do programa
 para poder liberar todos os espaços de memória das estruturas auxiliares.
 */
 
-void finalizar() {
-  
-}
+void finalizar() {}
